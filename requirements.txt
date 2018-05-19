@@ -1,0 +1,4 @@
+Django==2.0.4
+Pillow==5.1.0
+django-autofixture==0.12.1
+pytz==2018.4
