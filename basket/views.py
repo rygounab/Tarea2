@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from basket.models import Player
 from django.http import HttpResponse
+from basket.forms import PlayerForm
 
 
 def index(request):
@@ -27,9 +28,21 @@ def detail(request, player_id):
     return render(request, template_name, data)
 
 def agregar(request):
-    data={}
+    if request.method=='POST':
+        print("post")
+        form=PlayerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar:player_listar')
+        else:
+            print(form.errors)
+    else:
+        print("no post")
+        form=PlayerForm()
+
     template_name='player/agregar.html'
-    return render(request, template_name,data)
+    return render(request,template_name,{'form':form})
+
 
 def listar(request):
     data={}
